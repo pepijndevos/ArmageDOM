@@ -7,6 +7,8 @@
   (:import javax.xml.transform.stream.StreamResult))
 
 (defn xml
+  "Main function for generating DOM nodes.
+  See Readme for syntax"
   [root xmlns nss & nodes]
    (render
      (apply document (name root) xmlns nss)

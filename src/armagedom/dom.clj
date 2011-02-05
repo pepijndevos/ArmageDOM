@@ -21,7 +21,9 @@
         (str "xmlns:" prefix) url))
     d))
 
-(defn render [document xmlns nss nodes]
+(defn render
+  "Do the hard work for core/xml"
+  [document xmlns nss nodes]
   (letfn [(make-node [root [tag & nodes]]
             (let [prefix (namespace tag)
                   tag (name tag)]
