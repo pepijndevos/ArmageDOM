@@ -19,7 +19,7 @@ ArmageDOM is a Clojure DSL for generating XML using a list syntax. It supports n
     user=*      [:activity/verb
     user=*        "status"
     user=*        [:test 1]]
-    user=*      [:item 1 2 3])
+    user=*      (with-meta [:item 1 2 3] {:title "foo"}))
     #<DocumentImpl [#document: null]>
     user=> (let [s (new java.io.StringWriter)] (spit-xml s *1) (println (str s)))
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -28,7 +28,7 @@ ArmageDOM is a Clojure DSL for generating XML using a list syntax. It supports n
             status
             <test>1</test>
         </activity:verb>
-        <item>123</item>
+        <item title="foo">123</item>
     </feed>
     nil
 

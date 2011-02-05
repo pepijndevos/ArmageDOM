@@ -24,7 +24,7 @@
 (defn render
   "Do the hard work for core/xml"
   [document xmlns nss nodes]
-  (letfn [(make-node [root [tag & nodes]]
+  (letfn [(make-node [root [tag & nodes :as total]]
             (let [prefix (namespace tag)
                   tag (name tag)]
               (let [ele (if-let [uri (and prefix (get nss prefix))]
@@ -32,6 +32,8 @@
                           (.createElement document tag))]
                 (doseq [child nodes]
                   (inner-render ele child))
+                (doseq [[k v] (meta total)]
+                  (.setAttribute ele (name k) (str v)))
                 ele)))
 
           (inner-render [root node]
