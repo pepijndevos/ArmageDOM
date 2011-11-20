@@ -5,7 +5,7 @@
            javax.xml.transform.dom.DOMSource
            javax.xml.transform.stream.StreamResult))
 
-(declare ^:dynamic *document* ^:dynamic *nss*)
+(declare ^:dynamic ^org.w3c.dom.Document *document* ^:dynamic *nss*)
 
 (defn document
   "Create a new org.w3c.dom.Document
@@ -21,7 +21,7 @@
 (defn add-namespace
   "Add a namespace to the root element"
   [root prefix url]
-  (.setAttribute root (str "xmlns:" prefix) url))
+  (.setAttribute ^org.w3c.dom.Element root ^String (str "xmlns:" prefix) url))
 
 (defn add-namespaces
   "Add a map of namespaces to the root element"
@@ -38,7 +38,7 @@
 
 (extend-type clojure.lang.IPersistentCollection
   Nodify
-  (make-node [[tag & children :as node]]
+  (make-node [[^org.w3c.dom.Element tag & children :as node]]
     (doseq [[k v] (meta node)]
       (.setAttribute tag (name k) (str v)))
     (doseq [node children]
