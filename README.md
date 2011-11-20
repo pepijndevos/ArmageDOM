@@ -15,13 +15,13 @@ ArmageDOM is a Clojure DSL for generating XML using a list syntax. It supports n
 
     user=> (use 'armagedom.core)
     nil
-    user=> (xml :feed "http://www.w3.org/2005/Atom" ["activity" "http://activitystrea.ms/spec/1.0/"]
+    user=> (xml :feed "http://www.w3.org/2005/Atom" {"activity" "http://activitystrea.ms/spec/1.0/"}
     user=*      [:activity/verb
     user=*        "status"
     user=*        [:test 1]]
-    user=*      (with-meta [:item 1 2 3] {:title "foo"}))
+    user=*      ^{:title "foo"} [:item 1 2 3])
     #<DocumentImpl [#document: null]>
-    user=> (let [s (new java.io.StringWriter)] (spit-xml s *1) (println (str s)))
+    user=> (xml-str *1)
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:activity="http://activitystrea.ms/spec/1.0/">
         <activity:verb>
