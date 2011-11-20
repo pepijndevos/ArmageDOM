@@ -16,7 +16,7 @@
         (.setNamespaceAware true))
     (.newDocumentBuilder)
     (.getDOMImplementation)
-    (.createDocument uri root nil)))
+    (.createDocument uri (name root) nil)))
 
 (defn add-namespace
   "Add a namespace to the root element"
