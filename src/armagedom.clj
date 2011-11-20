@@ -18,15 +18,19 @@
     (.getDOMImplementation)
     (.createDocument uri root nil)))
 
-(defn add-namespace [root prefix url]
+(defn add-namespace
+  "Add a namespace to the root element"
+  [root prefix url]
   (.setAttribute root (str "xmlns:" prefix) url))
 
-(defn add-namespaces [root nss]
+(defn add-namespaces
+  "Add a map of namespaces to the root element"
+  [root nss]
   (doseq [[prefix url] nss]
     (add-namespace root prefix url)))
 
 (defprotocol Nodify
-  (make-node [this]))
+  (make-node [this] "Turn this into a Node"))
 
 (extend-type org.w3c.dom.Node
   Nodify
@@ -56,16 +60,25 @@
   (make-node [this]
     (.createTextNode *document* this)))
 
-(defn meta-postwalk [f form]
+(defn meta-postwalk
+  "Like clojure.walk/postwalk, but retains meta data"
+  [f form]
   (let [pf (partial meta-postwalk f)]
     (if (coll? form)
       (f (with-meta (map pf form) (meta form)))
       (f form))))
   
-(defn render [xmlseq]
+(defn render
+  "Walk a nested collection depth-first.
+  Turns keywords into nodes and other elements into text nodes.
+  Turns collections into the first node
+  with the rest as its children."
+  [xmlseq]
   (meta-postwalk make-node xmlseq))
 
-(defn xml [root uri nss & xmlseq]
+(defn xml
+  "Converts a nested collection into a DOM object"
+  [root uri nss & xmlseq]
   (binding [*document* (document root uri) *nss* nss]
     (let [root (.getDocumentElement *document*)]
       (add-namespaces root nss)
@@ -81,5 +94,7 @@
                 (StreamResult.
                   (clojure.java.io/writer out)))))
 
-(defn xml-str [document]
+(defn xml-str
+  "Return document as string"
+  [document]
   (with-out-str (spit-xml *out* document)))
