@@ -32,4 +32,13 @@ ArmageDOM is a Clojure DSL for generating XML using a list syntax. It supports n
     </feed>
     nil
 
+    user=> (easy-xml :feed "http://example.com" {:foo [{:baz "boo"} {:foo "bar"}]})
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <feed xmlns="http://example.com">
+        <foo>
+	    <baz>boo</baz>
+	    <foo>bar</foo>
+	</foo>
+    </feed>
+
 (beautified)
