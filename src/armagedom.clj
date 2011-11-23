@@ -108,4 +108,6 @@
         :else [v]))))
 
 (defn easy-xml [root uri m]
-  (apply xml root uri [] (map-syntax m)))
+  (xml-str
+    (apply xml root uri []
+           (map-syntax m))))
