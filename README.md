@@ -8,12 +8,13 @@ ArmageDOM is a Clojure DSL for generating XML using a list syntax. It supports n
 
 ## How?
 
-    git clone git://github.com/pepijndevos/ArmageDOM.git
-    cake/lein deps
+project.clj:
+
+    [armagedom "1.0.0-SNAPSHOT"]
 
 ## I mean, how?
 
-    user=> (use 'armagedom.core)
+    user=> (use 'armagedom)
     nil
     user=> (xml :feed "http://www.w3.org/2005/Atom" {"activity" "http://activitystrea.ms/spec/1.0/"}
     user=*      [:activity/verb
@@ -31,7 +32,6 @@ ArmageDOM is a Clojure DSL for generating XML using a list syntax. It supports n
         <item title="foo">123</item>
     </feed>
     nil
-
     user=> (easy-xml :feed "http://example.com" {:foo [{:baz "boo"} {:foo "bar"}]})
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <feed xmlns="http://example.com">
