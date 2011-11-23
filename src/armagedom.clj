@@ -98,3 +98,14 @@
   "Return document as string"
   [document]
   (with-out-str (spit-xml *out* document)))
+
+(defn map-syntax [m]
+  (for [[k v] m]
+    (cons k
+      (cond
+        (map? v) (map-syntax v)
+        (coll? v) (mapcat map-syntax v)
+        :else [v]))))
+
+(defn easy-xml [root uri m]
+  (apply xml root uri [] (map-syntax m)))
